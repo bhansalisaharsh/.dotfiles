@@ -34,6 +34,9 @@ function la {eza -lahg --color}
 Set-Alias cdx Set-Location -Force
 Remove-Item Alias:cd -Force
 Set-Alias cd z -Force
+Set-Alias catx Get-Content -Force
+Remove-Item Alias:cat -Force
+function cat {bat @args}
 
 # git aliases
 Set-Alias g git
