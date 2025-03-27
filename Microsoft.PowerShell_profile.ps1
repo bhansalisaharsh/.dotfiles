@@ -138,8 +138,8 @@ $__initQueue.Enqueue({
             function tree { eza --tree @args }
 
             Set-Alias ls eza -Force
-            function la { eza -lahg --color }
-            function cat { bat @args }
+            function la { eza -lahg --color @args }
+            Set-Alias cat bat -Force
 
             Remove-Item "Alias:grep" -Force -ErrorAction SilentlyContinue
             Remove-Item "Function:grep" -Force -ErrorAction SilentlyContinue
