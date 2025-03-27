@@ -37,6 +37,7 @@ Set-Alias cd z -Force
 
 # git aliases
 Set-Alias g git
+function ga {git add @args}
 function gaa {git add .}
 function gcsm {git commit --signoff --message "$args"}
 function gca {git commit --amend}
