@@ -1,15 +1,16 @@
-# PowerShell 7+ Installer Script
-if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
+# PowerShell 5.1/6 Installer Script
+If (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
         [Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Warning "Run this script as Administrator."
-    exit 1
+    Exit 1
 }
 
 if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
-    Write-Error "Winget is not installed. Please install it first."
-    exit 1
+    Write-Error "Winget is not available. Please install it."
+    Exit 1
 }
 
+# Winget Packages
 $wingetApps = @(
     "Starship.Starship", "eza-community.eza", "sharkdp.bat", "sharkdp.fd",
     "ajeetdsouza.zoxide", "junegunn.fzf", "BurntSushi.ripgrep.MSVC",
@@ -33,14 +34,15 @@ foreach ($id in $wingetApps) {
     }
 }
 
-$psModules = @("PSReadLine", "PSFzf", "CompletionPredictor")
+# PowerShell Modules
+$psModules = @("PSReadLine", "PSFzf")
 $upgradeModules = @()
 
 Write-Host "`nInstalling PowerShell modules (current shell)..."
 foreach ($mod in $psModules) {
     if (-not (Get-Module -ListAvailable -Name $mod)) {
         Install-Module -Name $mod -Scope CurrentUser -Force -AllowClobber
-        Write-Host "Installed: $mod"
+        Write-Host "Installed module: $mod"
     }
     else {
         Write-Host "Already exists: $mod"
@@ -48,20 +50,21 @@ foreach ($mod in $psModules) {
     }
 }
 
-if (Get-Command powershell.exe -ErrorAction SilentlyContinue) {
-    Write-Host "`nInstalling modules in Windows PowerShell..."
-    foreach ($mod in @("PSReadLine", "PSFzf")) {
-        $cmd = "if (-not (Get-Module -ListAvailable -Name $mod)) { Install-Module -Name $mod -Scope CurrentUser -Force -AllowClobber }"
-        powershell.exe -NoLogo -NoProfile -Command $cmd
+if (Get-Command pwsh -ErrorAction SilentlyContinue) {
+    Write-Host "`nInstalling modules in PowerShell 7 context..."
+    foreach ($mod in $psModules + "CompletionPredictor") {
+        $check = "if (-not (Get-Module -ListAvailable -Name $mod)) { Install-Module -Name $mod -Scope CurrentUser -Force -AllowClobber }"
+        pwsh -NoLogo -NoProfile -Command $check
         if ($LASTEXITCODE -eq 1) {
-            $upgradeModules += @{ Name = $mod; Context = "powershell" }
+            $upgradeModules += @{ Name = $mod; Context = "pwsh" }
         }
     }
 }
 else {
-    Write-Warning "Windows PowerShell not found."
+    Write-Warning "PowerShell 7 not found. Skipping PS7 module install."
 }
 
+# Upgrade Winget
 Write-Host "`nWinget packages that can be upgraded:"
 $upgradeWinget | ForEach-Object { Write-Host " - $_" }
 $response = Read-Host "Do you want to upgrade all winget packages? (y/N)"
@@ -72,7 +75,7 @@ else {
     Write-Host "Skipped winget upgrades."
 }
 
-# Safe update helper
+# Function: Update module safely
 function Update-Safely($modName) {
     try {
         if (Get-Module $modName) {
@@ -87,6 +90,7 @@ function Update-Safely($modName) {
     }
 }
 
+# Upgrade Modules
 if ($upgradeModules.Count -gt 0) {
     Write-Host "`nModules that can be upgraded:"
     foreach ($mod in $upgradeModules) {
@@ -97,13 +101,13 @@ if ($upgradeModules.Count -gt 0) {
         foreach ($mod in $upgradeModules | Where-Object { $_.Context -eq "current" }) {
             Update-Safely $mod.Name
         }
-        foreach ($mod in $upgradeModules | Where-Object { $_.Context -eq "powershell" }) {
+        foreach ($mod in $upgradeModules | Where-Object { $_.Context -eq "pwsh" }) {
             $cmd = @"
 if (Get-Module '$($mod.Name)') { Remove-Module '$($mod.Name)' -Force }
 Update-Module -Name '$($mod.Name)' -Force
 Import-Module '$($mod.Name)'
 "@
-            powershell.exe -NoLogo -NoProfile -Command $cmd
+            pwsh -NoLogo -NoProfile -Command $cmd
         }
     }
     else {
