@@ -37,6 +37,7 @@ Set-Alias cd z -Force
 Set-Alias catx Get-Content -Force
 Remove-Item Alias:cat -Force
 function cat {bat @args}
+Set-Alias grep rg -Force
 
 # git aliases
 Set-Alias g git
