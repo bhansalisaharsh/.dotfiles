@@ -8,14 +8,22 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 
 # Install CLI tools via winget
 $wingetPackages = @(
+    @{ Id = "Microsoft.PowerShell"; Name = "PowerShell 7" },
     @{ Id = "Starship.Starship"; Name = "starship" },
     @{ Id = "ajeetdsouza.zoxide"; Name = "zoxide" },
     @{ Id = "sharkdp.bat"; Name = "bat" },
     @{ Id = "eza-community.eza"; Name = "eza" },
-    @{ Id = "nvbn.thefuck"; Name = "thefuck" },
     @{ Id = "Git.Git"; Name = "git" },
     @{ Id = "Microsoft.PowerToys"; Name = "PowerToys" },
-    @{ Id = "AutoHotkey.AutoHotkey"; Name = "AutoHotkey" }
+    @{ Id = "AutoHotkey.AutoHotkey"; Name = "AutoHotkey" },
+
+    # Unix-style CLI tools
+    @{ Id = "sharkdp.fd"; Name = "fd" },
+    @{ Id = "junegunn.fzf"; Name = "fzf" },
+    @{ Id = "uutils.coreutils"; Name = "coreutils (GNU clone)" },
+    @{ Id = "mtoyoda.winless"; Name = "less" },
+    @{ Id = "cyberbeing.moreutils"; Name = "moreutils" },
+    @{ Id = "BurntSushi.ripgrep.MSVC"; Name = "ripgrep (rg)" }
 )
 
 foreach ($pkg in $wingetPackages) {
@@ -35,4 +43,4 @@ foreach ($mod in $psModules) {
     Install-Module -Name $mod.Name -Scope $mod.Scope -Force -AllowClobber
 }
 
-Write-Host "`n✅ All dependencies installed successfully."
+Write-Host "`n✅ PowerShell 7, CLI tools, and modules installed successfully."
