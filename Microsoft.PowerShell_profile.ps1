@@ -128,7 +128,7 @@ $__initQueue.Enqueue({
 
             # Utils
             function pkill {
-                taskkill -f -im $(ps | rg "$args" | ForEach-Object { $_ -replace '^\s*\d+\s+', '' } | Select-Object -First 1).Trim()
+                taskkill -f -im $(ps | rg @args | ForEach-Object { $_ -replace '.*?(\d{4,7}).*', '$1' } | Select-Object -First 1).Trim()
             }
 
             Remove-Item "Alias:less" -Force -ErrorAction SilentlyContinue
