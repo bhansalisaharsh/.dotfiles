@@ -42,7 +42,7 @@ foreach ($id in $wingetApps) {
 Write-Host "`nInstalling PowerShell modules (current shell)..."
 foreach ($mod in $psModules) {
     if (-not (Get-Module -ListAvailable -Name $mod)) {
-        Install-Module -Name $mod -Scope CurrentUser -Force -AllowClobber
+        Install-Module -Name $mod -Force -AllowClobber
         Write-Host "Installed: $mod"
     }
     else {
@@ -55,7 +55,7 @@ foreach ($mod in $psModules) {
 if (Get-Command pwsh -ErrorAction SilentlyContinue) {
     Write-Host "`nInstalling modules in PowerShell 7 context..."
     foreach ($mod in $psModules) {
-        $check = "if (-not (Get-Module -ListAvailable -Name $mod)) { Install-Module -Name $mod -Scope CurrentUser -Force -AllowClobber }"
+        $check = "if (-not (Get-Module -ListAvailable -Name $mod)) { Install-Module -Name $mod -Force -AllowClobber }"
         pwsh -NoLogo -NoProfile -Command $check
         if ($LASTEXITCODE -eq 1) {
             $upgradeModules += @{ Name = $mod; Context = "pwsh" }
@@ -70,7 +70,7 @@ else {
 if (Get-Command powershell.exe -ErrorAction SilentlyContinue) {
     Write-Host "`nInstalling modules in Windows PowerShell context..."
     foreach ($mod in @("PSReadLine", "PSFzf", "PowerType")) {
-        $cmd = "if (-not (Get-Module -ListAvailable -Name $mod)) { Install-Module -Name $mod -Scope CurrentUser -Force -AllowClobber }"
+        $cmd = "if (-not (Get-Module -ListAvailable -Name $mod)) { Install-Module -Name $mod -Force -AllowClobber }"
         powershell.exe -NoLogo -NoProfile -Command $cmd
         if ($LASTEXITCODE -eq 1) {
             $upgradeModules += @{ Name = $mod; Context = "powershell" }
@@ -97,7 +97,7 @@ function Reinstall-Module {
     param($modName)
     try {
         Uninstall-Module -Name $modName -Force -ErrorAction SilentlyContinue
-        Install-Module -Name $modName -Scope CurrentUser -Force -AllowClobber
+        Install-Module -Name $modName -Force -AllowClobber
         Write-Host "Reinstalled module: ${modName}"
     }
     catch {
@@ -146,7 +146,7 @@ try {
     Import-Module '$($mod.Name)'
 } catch {
     Uninstall-Module '$($mod.Name)' -Force -ErrorAction SilentlyContinue
-    Install-Module '$($mod.Name)' -Scope CurrentUser -Force -AllowClobber
+    Install-Module '$($mod.Name)' -Force -AllowClobber
 }
 "@
             pwsh -NoLogo -NoProfile -Command $cmd
@@ -160,7 +160,7 @@ try {
     Import-Module '$($mod.Name)'
 } catch {
     Uninstall-Module '$($mod.Name)' -Force -ErrorAction SilentlyContinue
-    Install-Module '$($mod.Name)' -Scope CurrentUser -Force -AllowClobber
+    Install-Module '$($mod.Name)' -Force -AllowClobber
 }
 "@
             powershell.exe -NoLogo -NoProfile -Command $cmd
