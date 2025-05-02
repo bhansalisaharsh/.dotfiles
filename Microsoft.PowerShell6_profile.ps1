@@ -1,6 +1,9 @@
 # Start stopwatch
 $sw = [System.Diagnostics.Stopwatch]::StartNew()
 
+# --- Set Environent Variables ---
+$MaximumHistoryCount = 32767
+
 # --- Lazy-load shims for deferred functions ---
 function Invoke-When-Available {
     param(

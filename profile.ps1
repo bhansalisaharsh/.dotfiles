@@ -1,3 +1,6 @@
+# --- Set Environent Variables ---
+$MaximumHistoryCount = 32767
+
 # init starship and zoxide
 Invoke-Expression (&starship init powershell)
 Invoke-Expression (&zoxide init powershell | Out-String)
