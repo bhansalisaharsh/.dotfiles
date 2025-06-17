@@ -82,7 +82,7 @@ if ($Host.UI.SupportsVirtualTerminal) {
     Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
     Set-PSReadLineKeyHandler -Chord "Ctrl+RightArrow" -Function ForwardWord
 
-    if ( Test-Path '~/.inshellisense/powershell/init.ps1' -PathType Leaf ) { . ~/.inshellisense/powershell/init.ps1 }
+    # if ( Test-Path '~/.inshellisense/powershell/init.ps1' -PathType Leaf ) { . ~/.inshellisense/powershell/init.ps1 }
 
     # $env:CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
     $env:CARAPACE_BRIDGE="inshellisense"
