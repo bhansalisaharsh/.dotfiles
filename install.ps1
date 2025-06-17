@@ -17,7 +17,7 @@ $wingetApps = @(
     "ajeetdsouza.zoxide", "junegunn.fzf", "BurntSushi.ripgrep.MSVC",
     "Git.Git", "Microsoft.WindowsTerminal", "Microsoft.PowerShell",
     "Microsoft.PowerToys", "AutoHotkey.AutoHotkey", "tldr-pages.tlrc",
-    "GitHub.cli"
+    "GitHub.cli", "rsteube.Carapace"
 )
 
 $psModules = @("PSReadLine", "PSFzf", "CompletionPredictor", "PowerType")

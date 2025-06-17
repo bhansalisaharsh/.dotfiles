@@ -33,7 +33,7 @@ function Invoke-When-Available {
 foreach ($fn in @(
         'powerhelp', 'ga', 'gaa', 'gcsm', 'gca', 'grbi', 'gd', 'gst', 'gco', 'gb', 'gm',
         'glg', 'glgp', 'glgg', 'grs', 'grst', 'gsta', 'gstaa', 'gf', 'gpl', 'gpu',
-        'pkill', 'less', 'tree', 'la', 'cat'
+        'pkill', 'less', 'tree', 'la', 'll', 'cat'
     )) {
     Set-Item "function:\$fn" { param($args) Invoke-When-Available -Name $MyInvocation.MyCommand.Name -Args $args }
 }
@@ -50,6 +50,9 @@ if (-not (Test-Path function:\prompt -PathType Leaf -ErrorAction SilentlyContinu
 if (-not (Get-Command z -ErrorAction SilentlyContinue)) {
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
 }
+
+# Pay-respects init
+# pay-respects pwsh --alias [<alias>]
 
 # Rebind cd and cdi to z/zi
 if (Test-Path Function:\cd) { Remove-Item Function:\cd -Force }
@@ -70,16 +73,26 @@ if (-not (Get-Module CompletionPredictor)) {
 }
 
 # PSReadLine config
-Set-PSReadLineOption -HistorySaveStyle SaveIncrementally
-Set-PSReadLineOption -PredictionSource HistoryAndPlugin
-Set-PSReadLineOption -PredictionViewStyle InlineView
-Set-PSReadLineOption -EditMode Windows
-Set-PSReadLineOption -HistorySearchCursorMovesToEnd
+if ($Host.UI.SupportsVirtualTerminal) {
+    Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+    Set-PSReadLineOption -HistorySaveStyle SaveIncrementally
+    Set-PSReadLineOption -PredictionViewStyle InlineView
+    Set-PSReadLineOption -EditMode Windows
+    Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 
-Set-PSReadLineKeyHandler -Key Tab -Function Complete
-Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
-Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
-Set-PSReadLineKeyHandler -Chord "Ctrl+RightArrow" -Function ForwardWord
+    # Set-PSReadLineKeyHandler -Key Tab -Function Complete
+    Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+    Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+    Set-PSReadLineKeyHandler -Chord "Ctrl+RightArrow" -Function ForwardWord
+
+    # $env:CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
+    $env:CARAPACE_MATCH = 1
+    Set-PSReadLineOption -Colors @{ "Selection" = "`e[7m" }
+    Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
+    carapace _carapace | Out-String | Invoke-Expression
+} else {
+}
+
 
 # --- 2. Cleanup Previous Lazy Loader ---
 Get-EventSubscriber -SourceIdentifier PowerShell.OnIdle -ErrorAction SilentlyContinue |
@@ -142,6 +155,7 @@ $__initQueue.Enqueue({
 
             Set-Alias ls eza -Force
             function la { eza -lahg --color @args }
+            function ll { eza -lahg --color @args }
             Set-Alias cat bat -Force
 
             Remove-Item "Alias:grep" -Force -ErrorAction SilentlyContinue
