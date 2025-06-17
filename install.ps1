@@ -17,7 +17,7 @@ $wingetApps = @(
     "ajeetdsouza.zoxide", "junegunn.fzf", "BurntSushi.ripgrep.MSVC",
     "Git.Git", "Microsoft.WindowsTerminal", "Microsoft.PowerShell",
     "Microsoft.PowerToys", "AutoHotkey.AutoHotkey", "tldr-pages.tlrc",
-    "GitHub.cli", "rsteube.Carapace"
+    "GitHub.cli", "rsteube.Carapace", "Volta.Volta"
 )
 
 $psModules = @("PSReadLine", "PSFzf", "CompletionPredictor", "PowerType")
@@ -170,3 +170,8 @@ try {
         Write-Host "Skipped module upgrades."
     }
 }
+
+Write-Host "For better shell compltetion using 'microsoft/inshellisense', please run the following command in your shell:"
+Write-Host "npm install -g @microsoft/inshellisense"
+
+Write-Host "`nInstallation and upgrade process completed."
