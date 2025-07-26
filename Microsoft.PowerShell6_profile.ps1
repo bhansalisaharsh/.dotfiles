@@ -51,6 +51,9 @@ if (-not (Get-Command z -ErrorAction SilentlyContinue)) {
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
 }
 
+# Pay-respects init
+# pay-respects powershell --alias [<alias>]
+
 # Rebind cd and cdi to z/zi
 if (Test-Path Function:\cd) { Remove-Item Function:\cd -Force }
 if (Get-Alias cd -ErrorAction SilentlyContinue) { Remove-Item Alias:cd -Force }
@@ -60,7 +63,7 @@ if (Test-Path Function:\cdi) { Remove-Item Function:\cdi -Force }
 if (Get-Alias cdi -ErrorAction SilentlyContinue) { Remove-Item Alias:cdi -Force }
 Set-Alias cdi zi -Force
 
-# # Load PowerType and CompletionPredictor immediately
+# Load PowerType and CompletionPredictor immediately
 # if (-not (Get-Module PowerType)) {
 #     Import-Module PowerType -Global
 #     Enable-PowerType
@@ -82,17 +85,58 @@ if ($Host.UI.SupportsVirtualTerminal) {
     Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
     Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
     Set-PSReadLineKeyHandler -Chord "Ctrl+RightArrow" -Function ForwardWord
+    Set-PSReadLineKeyHandler -Chord "Ctrl+'" -Function ForwardChar
 
     # if ( Test-Path '~/.inshellisense/powershell/init.ps1' -PathType Leaf ) { . ~/.inshellisense/powershell/init.ps1 }
 
-    # $env:CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
-    $env:CARAPACE_BRIDGE="inshellisense"
+    $env:CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense,powershell' # optional
+    # $env:CARAPACE_BRIDGE="inshellisense"
     $env:CARAPACE_MATCH = 1
     Set-PSReadLineOption -Colors @{ "Selection" = "Gray" }
     Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
+    Set-PSReadlineKeyHandler -Key Ctrl+e -Function EndOfLine
     carapace _carapace | Out-String | Invoke-Expression
-} else {
+    Set-PSReadLineOption -HistorySearchCursorMovesToEnd
+
+    function Register-CarapaceCompletion {
+        [CmdletBinding()]
+        param (
+            [Parameter(Mandatory, Position = 0)]
+            [string[]] $AliasNames,
+            [Parameter(Mandatory, Position = 1)]
+            [string]   $Executable
+        )
+
+        # Build the list of names: aliases + the actual exe
+        $names = @($AliasNames) + $Executable
+
+        # $_carapace_lazy is defined by the above Invoke-Expression
+        Register-ArgumentCompleter -Native `
+            -CommandName $names `
+            -ScriptBlock $_carapace_lazy
+    } 
+    
+    # Register-ArgumentCompleter -Native -ScriptBlock $_carapace_lazy -CommandName 'cd', 'zoxide.exe'
+    # Register-ArgumentCompleter -Native -ScriptBlock $_carapace_lazy -CommandName 'cdi', 'zoxide.exe'
+    # Register-ArgumentCompleter -Native -ScriptBlock $_carapace_lazy -CommandName 'z', 'zoxide.exe'
+    # Register-ArgumentCompleter -Native -ScriptBlock $_carapace_lazy -CommandName 'g', 'git.exe'
+    # Register-ArgumentCompleter -Native -ScriptBlock $_carapace_lazy -CommandName 'ls', 'eza.exe'
+    # Register-ArgumentCompleter -Native -ScriptBlock $_carapace_lazy -CommandName 'la', 'eza.exe'
+    # Register-ArgumentCompleter -Native -ScriptBlock $_carapace_lazy -CommandName 'll', 'eza.exe'
+    # Register-ArgumentCompleter -Native -ScriptBlock $_carapace_lazy -CommandName 'cat', 'bat.exe'
+    # Register-ArgumentCompleter -Native -ScriptBlock $_carapace_lazy -CommandName 'grep', 'rg.exe'
+    # Register-ArgumentCompleter -Native -ScriptBlock $_carapace_lazy -CommandName 'powerhelp', 'powershell.exe'
+    # Register-ArgumentCompleter -Native -ScriptBlock $_carapace_lazy -CommandName 'pkill', 'taskkill.exe'
+    
+    # Register-ArgumentCompleter -CommandName "g" -ScriptBlock {
+    #     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    #     # Call carapace to get completion suggestions
+    #     (carapace "git" --shell powershell --word $wordToComplete --args $commandAst.ToString()) | Out-String | ConvertFrom-Json | Select-Object -ExpandProperty Value
+    # }
 }
+else {
+}
+
 
 # --- 2. Cleanup Previous Lazy Loader ---
 Get-EventSubscriber -SourceIdentifier PowerShell.OnIdle -ErrorAction SilentlyContinue |
@@ -106,6 +150,11 @@ $global:__initQueue = [System.Collections.Queue]::Synchronized([System.Collectio
 # Deferred: Modules
 $__initQueue.Enqueue({
         Import-Module -Name PSFzf -Global -ErrorAction SilentlyContinue
+
+        #f45873b3-b655-43a6-b217-97c00aa0db58 PowerToys CommandNotFound module
+        Import-Module -Name Microsoft.WinGet.CommandNotFound
+        #f45873b3-b655-43a6-b217-97c00aa0db58
+
     })
 
 # Deferred: Aliases, Utils, Help
@@ -144,7 +193,7 @@ $__initQueue.Enqueue({
 
             # Utils
             function pkill {
-                taskkill -f -im $(ps | rg "$args" | ForEach-Object { $_ -replace '^\s*\d+\s+', '' } | Select-Object -First 1).Trim()
+                taskkill -f -im $(ps | rg @args | ForEach-Object { $_ -replace '.*?(\d{4,7}).*', '$1' } | Select-Object -First 1).Trim()
             }
 
             Remove-Item "Alias:less" -Force -ErrorAction SilentlyContinue
@@ -228,7 +277,9 @@ $__initQueue.Enqueue({
 # Deferred: Keybindings (Unix-like + safe extras)
 $__initQueue.Enqueue({
         Set-PSReadLineKeyHandler -Key Ctrl+a -Function BeginningOfLine
-        Set-PSReadLineKeyHandler -Key Ctrl+e -Function EndOfLine
+        Set-PSReadLineKeyHandler -Key "Ctrl+e" -Function EndOfLine
+        Set-PSReadLineKeyHandler -Key "Ctrl+p" -Function HistorySearchBackward
+        Set-PSReadLineKeyHandler -Key "Ctrl+n" -Function HistorySearchForward
         Set-PSReadLineKeyHandler -Key Alt+f -Function ForwardWord
         Set-PSReadLineKeyHandler -Key Alt+b -Function BackwardWord
         Set-PSReadLineKeyHandler -Key Alt+d -Function DeleteWord
@@ -242,6 +293,7 @@ $__initQueue.Enqueue({
         Set-PSReadLineKeyHandler -Key Ctrl+w -Function BackwardKillWord
         Set-PSReadLineKeyHandler -Key Ctrl+h -Function BackwardDeleteChar
         Set-PSReadLineKeyHandler -Key Ctrl+Delete -Function KillWord
+
     })
 
 # Deferred: ripgrep completions
