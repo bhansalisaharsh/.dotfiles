@@ -1,0 +1,1 @@
+winget install python.python.3.9 python.python.3.10 python.python.3.11 python.python.3.12 python.python.3.13 astral-sh.uv docker.dockerdesktop docker.dockercompose docker.dockercli microsoft.visualstudiocode volta.volta git.git
