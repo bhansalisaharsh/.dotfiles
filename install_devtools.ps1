@@ -1,1 +1,3 @@
-winget install python.python.3.9 python.python.3.10 python.python.3.11 python.python.3.12 python.python.3.13 astral-sh.uv docker.dockerdesktop docker.dockercompose docker.dockercli microsoft.visualstudiocode volta.volta git.git
+winget install python.python.3.9 python.python.3.10 python.python.3.11 python.python.3.12 python.python.3.13 astral-sh.uv docker.dockerdesktop docker.dockercompose docker.dockercli microsoft.visualstudiocode volta.volta git.git github.gitlfs
+
+winget install github.gitlfs rustlang.rust.gnu rustlang.rust.msvc rustlang.rustup git-cola.git-cola uutils.coreutils msys2.msys2 spicetify.spicetify eclipseadoptium.temurin.21.jdk burntsushi.ripgrep.msvc jesseduffield.lazygit postman.postman microsoft.azurecli gnuwin32.findutils gnuwin32.grep gnuwin32.tree gnuwin32.which llvm.llvm doist.todoist bitwarden.bitwarden bruno.bruno notion.notion brave.brave 9nt1r1c2hh7j
