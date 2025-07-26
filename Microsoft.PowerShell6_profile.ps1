@@ -71,7 +71,8 @@ Set-Alias cdi zi -Force
 
 # PSReadLine config
 if ($Host.UI.SupportsVirtualTerminal) {
-    Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+    # Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+    Set-PSReadLineOption -PredictionSource History
     Set-PSReadLineOption -HistorySaveStyle SaveIncrementally
     Set-PSReadLineOption -PredictionViewStyle InlineView
     Set-PSReadLineOption -EditMode Windows
@@ -87,7 +88,7 @@ if ($Host.UI.SupportsVirtualTerminal) {
     # $env:CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
     $env:CARAPACE_BRIDGE="inshellisense"
     $env:CARAPACE_MATCH = 1
-    Set-PSReadLineOption -Colors @{ "Selection" = "`e[7m" }
+    Set-PSReadLineOption -Colors @{ "Selection" = "Gray" }
     Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
     carapace _carapace | Out-String | Invoke-Expression
 } else {
@@ -273,4 +274,4 @@ Register-EngineEvent -SourceIdentifier PowerShell.OnIdle -SupportEvent -Action {
 
 # --- 5. Print load time ---
 $sw.Stop()
-Write-Host "✅ PowerShell prompt ready in $($sw.Elapsed.TotalSeconds) seconds`n"
+Write-Host "PowerShell prompt ready in $($sw.Elapsed.TotalSeconds) seconds`n"
