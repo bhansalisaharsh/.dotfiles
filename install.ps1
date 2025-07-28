@@ -22,7 +22,7 @@ $wingetApps = @(
   "GitHub.cli", "rsteube.Carapace", "Volta.Volta", "Nushell.Nushell", "Python.Python.3.9", "Python.Python.3.10", "Python.Python.3.11", "Python.Python.3.12", "Python.Python.3.13", "Microsoft.VisualStudioCode"
 )
 
-$psModules = @("PSReadLine", "PSFzf", "CompletionPredictor", "PowerType")
+$psModules = @("PSReadLine", "PSFzf", "CompletionPredictor", "PowerType", "DisplayConfig")
 $upgradeWinget = @()
 $upgradeModules = @()
 
