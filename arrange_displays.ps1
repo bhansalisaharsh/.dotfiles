@@ -1,3 +1,5 @@
+DisplaySwitch 3
+
 Import-Module DisplayConfig
 
 Get-DisplayConfig |
