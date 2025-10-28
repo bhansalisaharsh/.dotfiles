@@ -10,10 +10,12 @@ return {
     lazy = true,
     name = "catppuccin",
     opts = {
+      flavor = "mocha",
       transparent_background = true,
       integrations = {
         aerial = true,
         alpha = true,
+        bufferline = true,
         cmp = true,
         dashboard = true,
         flash = true,
@@ -77,7 +79,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin-mocha",
+      colorscheme = "catppuccin",
     },
   },
 }
