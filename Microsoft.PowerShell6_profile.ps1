@@ -32,7 +32,7 @@ function Invoke-When-Available {
 # Shim all deferred functions
 foreach ($fn in @(
         'powerhelp', 'ga', 'gaa', 'gcsm', 'gca', 'grbi', 'gd', 'gst', 'gco', 'gb', 'gm',
-        'glg', 'glgp', 'glgg', 'grs', 'grst', 'gsta', 'gstaa', 'gf', 'gpl', 'gpu',
+        'glg', 'glgp', 'glgg', 'grs', 'grst', 'gsta', 'gstaa', 'gf', 'gl', 'gp', 'uncommit',
         'pkill', 'less', 'tree', 'la', 'll', 'cat'
     )) {
     Set-Item "function:\$fn" { param($args) Invoke-When-Available -Name $MyInvocation.MyCommand.Name -Args $args }
@@ -180,16 +180,20 @@ $__initQueue.Enqueue({
             function gsta { git stash }
             function gstaa { git stash apply }
             function gf { git fetch --verbose }
-            function gpl {
+            function gl {
                 if ($args.Count -eq 0) { git pull --verbose }
                 elseif ($args.Count -eq 1) { git pull --verbose $args }
                 else { git pull --verbose -- @args }
             }
-            function gpu {
+            Remove-Item "Alias:gp" -Force -ErrorAction SilentlyContinue
+            Remove-Item "Function:gp" -Force -ErrorAction SilentlyContinue
+            Remove-Item "Cmdlet:gp" -Force -ErrorAction SilentlyContinue
+            function gp {
                 if ($args.Count -eq 0) { git push --verbose }
                 elseif ($args.Count -eq 1) { git push --verbose $args }
                 else { git push --verbose -- @args }
             }
+            function uncommit { git reset --soft HEAD~1 }
 
             # Utils
             function pkill {
