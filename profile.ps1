@@ -47,45 +47,40 @@ Set-Alias g git
 function ga { git add @args }
 function gaa { git add . }
 function gcsm { git commit --signoff --message "$args" }
-function gca { git commit --amend }
-function grbi { git rebase --interactive $args }
-function gd { git diff $args }
-function gst { git status $args }
-function gco { git checkout $args }
-function gb { git branch $args }
-function gm { git merge $args }
-function glg { git log --show-notes="*" --stat $args }
-function glgp { git log --show-notes="*" --stat --patch $args }
-function glgg { git log --show-notes="*" --stat --graph $args }
-function grs { git restore $args }
-function grst { git restore --staged $args }
+function gca {
+    if ($args.Count -eq 0) { git commit --amend }
+    elseif ($args.Count -eq 1) { git commit --amend $args }
+    else { git commit --amend @args }
+}
+function grbi { git rebase --interactive @args }
+function gd { git diff @args }
+function gst { git status @args }
+function gco { git checkout @args }
+function gb { git branch @args }
+function gm { git merge @args }
+function glg { git log --show-notes="*" --stat @args }
+function glgp { git log --show-notes="*" --stat --patch @args }
+function glgg { git log --show-notes="*" --stat --graph @args }
+function grs { git restore @args }
+function grst { git restore --staged @args }
 function gsta { git stash }
 function gstaa { git stash apply }
 function gf { git fetch --verbose }
-# function gpl {git pull --verbose origin $(git branch --show-current)}
-# function gpu {git push --verbose}
-function gpl {
-    if ($args.Count -eq 0) {
-        git pull --verbose
-    }
-    elseif ($args.Count -eq 1) {
-        git pull --verbose $args
-    }
-    else {
-        git pull --verbose -- @args
-    }
+function gl {
+    if ($args.Count -eq 0) { git pull --verbose }
+    elseif ($args.Count -eq 1) { git pull --verbose $args }
+    else { git pull --verbose -- @args }
 }
-function gpu {
-    if ($args.Count -eq 0) {
-        git push --verbose
-    }
-    elseif ($args.Count -eq 1) {
-        git push --verbose $args
-    }
-    else {
-        git push --verbose -- @args
-    }
+Remove-Item "Alias:gp" -Force -ErrorAction SilentlyContinue
+Remove-Item "Function:gp" -Force -ErrorAction SilentlyContinue
+Remove-Item "Cmdlet:gp" -Force -ErrorAction SilentlyContinue
+function gp {
+    if ($args.Count -eq 0) { git push --verbose }
+    elseif ($args.Count -eq 1) { git push --verbose $args }
+    else { git push --verbose -- @args }
 }
+function uncommit { git reset --soft HEAD~1 }
+
 # function gsta {
 #     if ($args.Count -eq 0) {
 #         git stash
