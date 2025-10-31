@@ -12,6 +12,14 @@ return {
     opts = {
       flavor = "mocha",
       transparent_background = true,
+      lsp_styles = {
+        underlines = {
+          errors = { "undercurl" },
+          hints = { "undercurl" },
+          warnings = { "undercurl" },
+          information = { "undercurl" },
+        },
+      },
       integrations = {
         aerial = true,
         alpha = true,
@@ -30,15 +38,6 @@ return {
         mason = true,
         markdown = true,
         mini = true,
-        native_lsp = {
-          enabled = true,
-          underlines = {
-            errors = { "undercurl" },
-            hints = { "undercurl" },
-            warnings = { "undercurl" },
-            information = { "undercurl" },
-          },
-        },
         navic = { enabled = true, custom_bg = "lualine" },
         neotest = true,
         neotree = true,
@@ -58,7 +57,7 @@ return {
         optional = true,
         opts = function(_, opts)
           if (vim.g.colors_name or ""):find("catppuccin") then
-            opts.highlights = require("catppuccin.groups.integrations.bufferline").get()
+            opts.highlights = require("catppuccin.special.bufferline").get_theme()
           end
         end,
       },
@@ -70,7 +69,7 @@ return {
     optional = true,
     opts = function(_, opts)
       if (vim.g.colors_name or ""):find("catppuccin") then
-        opts.highlights = require("catppuccin.groups.integrations.bufferline").get()
+        opts.highlights = require("catppuccin.special.bufferline").get_theme()
       end
     end,
   },
