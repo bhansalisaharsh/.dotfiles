@@ -194,7 +194,7 @@ $__initQueue.Enqueue({
             function gp {
                 if ($args.Count -eq 0) { git push --verbose }
                 elseif ($args.Count -eq 1) { git push --verbose $args }
-                else { git push --verbose -- @args }
+                else { git push --verbose @args }
             }
             function uncommit { git reset --soft HEAD~1 }
 
