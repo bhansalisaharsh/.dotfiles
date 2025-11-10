@@ -32,7 +32,7 @@ function Invoke-When-Available {
 # Shim all deferred functions
 foreach ($fn in @(
         'powerhelp', 'ga', 'gaa', 'gcsm', 'gca', 'grbi', 'gd', 'gst', 'gco', 'gb', 'gm',
-        'glg', 'glgp', 'glgg', 'grs', 'grst', 'gsta', 'gstaa', 'gf', 'gl', 'gp',
+        'glg', 'glgp', 'glgg', 'grs', 'grst', 'gsta', 'gstaa', 'gf', 'gl', 'gp', 'uncommit',
         'pkill', 'less', 'tree', 'la', 'll', 'cat'
     )) {
     Set-Item "function:\$fn" { param($args) Invoke-When-Available -Name $MyInvocation.MyCommand.Name -Args $args }
@@ -194,8 +194,9 @@ $__initQueue.Enqueue({
             function gp {
                 if ($args.Count -eq 0) { git push --verbose }
                 elseif ($args.Count -eq 1) { git push --verbose $args }
-                else { git push --verbose -- @args }
+                else { git push --verbose @args }
             }
+            function uncommit { git reset --soft HEAD~1 }
 
             # Utils
             function pkill {

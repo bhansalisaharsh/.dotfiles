@@ -1,0 +1,71 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "terminal": {
+    "detect_venv": {
+      "on": {
+        "directories": [".env", "env", ".venv", "venv"],
+        "activate_script": "default"
+      }
+    },
+    "env": {
+      // "PATH": "need to set it to $env:PATH",
+      "EDITOR": "zed --wait",
+    },
+    "shell": "system",
+    // "shell": {
+    //   "with_arguments": {
+    //     "program": "pwsh",
+    //     "args": [],
+    //   },
+    // },
+  },
+  "format_on_save": "off",
+  "ssh_connections": [
+    {
+      "host": "github.com",
+      "args": [],
+      "projects": []
+    }
+  ],
+  "disable_ai": false,
+  "minimap": {
+    "show": "auto"
+  },
+  "inlay_hints": {
+    "enabled": true
+  },
+  "icon_theme": "Catppuccin Mocha",
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  // Vim mode settings
+  "vim_mode": true,
+  "vim": {
+    "enable_vim_sneak": true,
+  },
+  // use relative line numbers
+  "relative_line_numbers": true,
+  // Indentation, rainbow indentation
+  "indent_guides": {
+    "enabled": true,
+    "coloring": "indent_aware",
+  },
+  "ui_font_size": 18,
+  "buffer_font_size": 17,
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "Catppuccin Espresso (Blur) [Light]"
+  },
+  "features": {
+    "edit_prediction_provider": "supermaven"
+  }
+}
