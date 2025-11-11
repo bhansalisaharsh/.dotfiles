@@ -205,10 +205,10 @@
   {
     "context": "Dock",
     "bindings": {
-      "ctrl-w h": "workspace::ActivatePaneLeft",
-      "ctrl-w l": "workspace::ActivatePaneRight",
-      "ctrl-w k": "workspace::ActivatePaneUp",
-      "ctrl-w j": "workspace::ActivatePaneDown"
+      "ctrl-space h": "workspace::ActivatePaneLeft",
+      "ctrl-space l": "workspace::ActivatePaneRight",
+      "ctrl-space k": "workspace::ActivatePaneUp",
+      "ctrl-space j": "workspace::ActivatePaneDown"
     }
   },
   {
