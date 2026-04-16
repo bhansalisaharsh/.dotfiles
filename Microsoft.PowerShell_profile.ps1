@@ -331,6 +331,7 @@ Register-EngineEvent -SourceIdentifier PowerShell.OnIdle -SupportEvent -Action {
     }
 }
 
+$env:GIT_ASK_YESNO=false
 # --- 5. Print load time ---
 $sw.Stop()
 Write-Host "✅ PowerShell prompt ready in $($sw.Elapsed.TotalSeconds) seconds`n"
