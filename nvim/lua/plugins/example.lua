@@ -10,13 +10,20 @@ if true then return {} end
 -- * override the configuration of LazyVim plugins
 return {
     -- add gruvbox
-    { "ellisonleao/gruvbox.nvim" },
+    -- { "ellisonleao/gruvbox.nvim" },
 
-    -- Configure LazyVim to load gruvbox
+    -- -- Configure LazyVim to load tokyonight
+    -- {
+    --     "folke/tokyonight.nvim",
+    --     lazy = true,
+    --     opts = { style = "moon" },
+    -- },
+
+    -- Configure LazyVim to load catppuccin
     {
         "LazyVim/LazyVim",
         opts = {
-            colorscheme = "gruvbox",
+            colorscheme = "catppuccin",
         },
     },
 
