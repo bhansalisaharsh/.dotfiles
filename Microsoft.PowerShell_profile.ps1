@@ -292,7 +292,7 @@ $__initQueue.Enqueue({
         Remove-Item "Alias:tree" -Force -ErrorAction SilentlyContinue
         function tree {
             if (Test-LocalCommandExists 'eza') {
-                eza --tree @args
+                eza --icons --tree @args
             }
             else {
                 cmd /c tree
@@ -301,8 +301,8 @@ $__initQueue.Enqueue({
 
         if (Test-LocalCommandExists 'eza') {
             Set-Alias ls eza -Force
-            function la { eza -lahg --color @args }
-            function ll { eza -lahg --color @args }
+            function la { eza -lahg --color --icons @args }
+            function ll { eza -lahg --color --icons @args }
         }
         else {
             function la { Get-ChildItem -Force @args }
@@ -455,3 +455,4 @@ Register-EngineEvent -SourceIdentifier PowerShell.OnIdle -SupportEvent -Action {
 # --- 5. Print load time ---
 $sw.Stop()
 Write-Host "PowerShell prompt ready in $($sw.Elapsed.TotalSeconds) seconds`n"
+
