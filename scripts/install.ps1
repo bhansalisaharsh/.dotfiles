@@ -15,11 +15,19 @@ if (-not (Get-Command winget -ErrorAction SilentlyContinue))
 
 # --- Config ---
 $wingetApps = @(
-  "Starship.Starship", "eza-community.eza", "sharkdp.bat", "sharkdp.fd",
-  "ajeetdsouza.zoxide", "junegunn.fzf", "BurntSushi.ripgrep.MSVC",
-  "Git.Git", "Microsoft.WindowsTerminal", "Microsoft.PowerShell",
-  "Microsoft.PowerToys", "AutoHotkey.AutoHotkey", "tldr-pages.tlrc",
-  "GitHub.cli", "rsteube.Carapace", "Volta.Volta", "Nushell.Nushell", "Python.Python.3.9", "Python.Python.3.10", "Python.Python.3.11", "Python.Python.3.12", "Python.Python.3.13", "Microsoft.VisualStudioCode"
+  "Python.Python.3.9", "Python.Python.3.10", "Python.Python.3.11",
+  "Python.Python.3.12", "Python.Python.3.13", "Python.Python.3.14", "Python.Launcher"
+  "Microsoft.VisualStudioCode", "Microsoft.WindowsTerminal", "Microsoft.PowerShell",
+  "Git.Git", "GitHub.GitLFS", "GitHub.cli", "Microsoft.PowerToys", "jj-vcs.jj", "AutoHotkey.AutoHotkey",
+  "Starship.Starship", "eza-community.eza", "sharkdp.bat", "sharkdp.fd", "GoLang.Go",
+  "ajeetdsouza.zoxide", "junegunn.fzf", "tldr-pages.tlrc", "Rustlang.Rustup", "LLVM.clangd",
+  "Volta.Volta", "astral-sh.uv", "BurntSushi.ripgrep.MSVC", "LLVM.LLVM", "7zip.7zip",
+  "rsteube.Carapace", "Bruno.Bruno", "Microsoft.AzureCLI", "Microsoft.SQLServerManagementStudio",
+  "Zellij.Zellij", "Oven-sh.Bun", "uutils.coreutils", "Amazon.AWSCLI", "Amazon.SSMAgent", "GnuWin32.Tree",
+  "GnuWin32.Make", "GnuWin32.Grep", "GnuWin32.DiffUtils", "GnuWin32.FindUtils", "GnuWin32.Which", 
+  "zig.zig", "Kitware.CMake", "EclipseAdoptium.Temurin.21.JDK", "Microsoft.Azd", "MSYS2.MSYS2",
+  "Docker.DockerCLI", "Docker.DockerCompose", "Fastfetch-cli.Fastfetch", "KDE.Filelight", "Nushell.Nushell",
+  "Neovim.Neovim", "Helix.Helix", "Ninja-build.Ninja", "Postman.Postman", "SQLite.SQLite" #, "9PFXXSHC64H3" # Raycast
 )
 
 $psModules = @("PSReadLine", "PSFzf", "CompletionPredictor", "PowerType", "DisplayConfig", "CommandNotFound")
