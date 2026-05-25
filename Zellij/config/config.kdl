@@ -1,7 +1,8 @@
 
 keybinds clear-defaults=true {
     locked {
-        bind "Ctrl g" { SwitchToMode "normal"; }
+        // bind "Ctrl g" { SwitchToMode "normal"; }
+        bind "Ctrl Space" { SwitchToMode "normal"; }
     }
     pane {
         bind "left" { MoveFocus "left"; }
@@ -137,12 +138,14 @@ keybinds clear-defaults=true {
             SwitchToMode "locked"
         }
     }
+    shared_among "normal" "locked" {
+        bind "Shift left" { MoveFocusOrTab "left"; }
+        bind "Shift down" { MoveFocus "down"; }
+        bind "Shift up"   { MoveFocus "up"; }
+        bind "Shift right" { MoveFocusOrTab "right"; }
+    }
     // shared_among "normal" "locked" {
     shared_among "normal" {
-        bind "Alt left" { MoveFocusOrTab "left"; }
-        bind "Alt down" { MoveFocus "down"; }
-        bind "Alt up" { MoveFocus "up"; }
-        bind "Alt right" { MoveFocusOrTab "right"; }
         bind "Alt +" { Resize "Increase"; }
         bind "Alt -" { Resize "Decrease"; }
         bind "Alt =" { Resize "Increase"; }
@@ -158,7 +161,7 @@ keybinds clear-defaults=true {
         bind "Alt o" { MoveTab "right"; }
     }
     shared_except "locked" "renametab" "renamepane" {
-        bind "Ctrl g" { SwitchToMode "locked"; }
+        bind "Ctrl Space" { SwitchToMode "locked"; }
         bind "Ctrl q" { Quit; }
     }
     shared_except "locked" "entersearch" {
@@ -362,7 +365,7 @@ copy_on_select true
 // otherwise this will error if such a session exists.
 // Default: <RANDOM>
 // 
-// session_name "My singleton session"
+session_name "default"
  
 // When `session_name` is provided, attaches to that session
 // if it is already running or creates it otherwise.
@@ -434,4 +437,4 @@ show_startup_tips true
 // Whether to show release notes on first version run
 // Default: true
 // 
-// show_release_notes false
+show_release_notes false
