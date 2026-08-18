@@ -73,7 +73,7 @@ function Invoke-When-Available {
 # Shim all deferred functions
 foreach ($fn in @(
     'powerhelp', 'ga', 'gaa', 'gcsm', 'gca', 'grbi', 'gd', 'gst', 'gco', 'gb', 'gm',
-    'glg', 'glgp', 'glgg', 'grs', 'grst', 'gsta', 'gstaa', 'gf', 'gl', 'gp', 'uncommit',
+    'glg', 'glgp', 'glgg', 'glog', 'grs', 'grst', 'gsta', 'gstaa', 'gf', 'gl', 'gp', 'uncommit',
     'pkill', 'less', 'tree', 'la', 'll', 'cat', 'k'
 )) {
     Set-Item "function:\$fn" { param($args) Invoke-When-Available -Name $MyInvocation.MyCommand.Name -Args $args }
@@ -242,6 +242,7 @@ $__initQueue.Enqueue({
             function glg { git log --show-notes="*" --stat @args }
             function glgp { git log --show-notes="*" --stat --patch @args }
             function glgg { git log --show-notes="*" --stat --graph @args }
+            function glog { git log --oneline --show-notes="*" --graph @args }
             function grs { git restore @args }
             function grst { git restore --staged @args }
             function gsta { git stash }
@@ -343,7 +344,7 @@ $__initQueue.Enqueue({
                         Where-Object {
                             $_.Name -in @(
                                 'ga', 'gaa', 'gcsm', 'gca', 'grbi', 'gd', 'gst', 'gco', 'gb', 'gm',
-                                'glg', 'glgp', 'glgg', 'grs', 'grst', 'gsta', 'gstaa', 'gf', 'gl', 'gp',
+                                'glg', 'glgp', 'glgg', 'glog', 'grs', 'grst', 'gsta', 'gstaa', 'gf', 'gl', 'gp',
                                 'pkill', 'less', 'tree', 'la', 'll', 'cat', 'k'
                             )
                         } |
