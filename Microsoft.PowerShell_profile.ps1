@@ -74,7 +74,7 @@ function Invoke-When-Available {
 foreach ($fn in @(
     'powerhelp', 'ga', 'gaa', 'gcsm', 'gca', 'grbi', 'gd', 'gst', 'gco', 'gb', 'gm',
     'glg', 'glgp', 'glgg', 'glog', 'grs', 'grst', 'gsta', 'gstaa', 'gf', 'gl', 'gp', 'uncommit',
-    'pkill', 'less', 'tree', 'la', 'll', 'cat', 'k'
+    'pkill', 'less', 'tree', 'la', 'll', 'cat', 'k', 'tf'
 )) {
     Set-Item "function:\$fn" { param($args) Invoke-When-Available -Name $MyInvocation.MyCommand.Name -Args $args }
 }
@@ -326,6 +326,7 @@ $__initQueue.Enqueue({
         }
 
         Set-Alias k kubectl -Force
+        Set-Alias tf terraform -Force
 
         # Unified help command
         function powerhelp {
@@ -345,7 +346,7 @@ $__initQueue.Enqueue({
                             $_.Name -in @(
                                 'ga', 'gaa', 'gcsm', 'gca', 'grbi', 'gd', 'gst', 'gco', 'gb', 'gm',
                                 'glg', 'glgp', 'glgg', 'glog', 'grs', 'grst', 'gsta', 'gstaa', 'gf', 'gl', 'gp',
-                                'pkill', 'less', 'tree', 'la', 'll', 'cat', 'k'
+                                'pkill', 'less', 'tree', 'la', 'll', 'cat', 'k', 'tf'
                             )
                         } |
                         Sort-Object Name |
